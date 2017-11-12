@@ -1,10 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET home page. */
+/* GET chatgroups' chat contents. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'WZY\'s Chatroom project!' });
+  res.send('respond with a resource');
 });
-
-
 module.exports = router;

@@ -4,10 +4,10 @@ var config = require('./config');
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 
-var dburl = 'mongodb://'+config.host+':'+config.port+'/'+config.dbName;
+//var dburl = 'mongodb://'+config.host+':'+config.port+'/'+config.dbName;
 var createDB = new Promise( (resolve, reject)=>
 	{
-		MongoClient.connect(dburl, (err,db)=>{
+		MongoClient.connect(config.dburl.toString(), (err,db)=>{
 			if (err) {
 				reject(err);
 			}
@@ -73,6 +73,8 @@ var createDB = new Promise( (resolve, reject)=>
         db.collection(config.c3).insertMany(config.c3_input, (err, res)=>{
             console.log(res);
         });
+
+        db.close();
 
     
 }

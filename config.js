@@ -7,6 +7,8 @@ var config={
     'port':27017,
 
     'dbName':'chatroom',
+    
+    'dburl':'mongodb://localhost:27017/chatroom',
 
     'c1':'users',
     'c2':'groups',
