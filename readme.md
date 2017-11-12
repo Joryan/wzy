@@ -30,5 +30,11 @@ How to Depoly?
 1 install MongoDB on localhost
 2 install Nodejs 
 3 depoly this application folder
-4 Run the dbCreated.js
+4 Run the dbCreated.js, which add some data into the DB
 5 node ./bin/www
+
+-------------------------------------
+How to Test?
+plese use the Mocha
+
+
