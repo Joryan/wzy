@@ -43,7 +43,7 @@ var createDB = new Promise( (resolve, reject)=>
 ).then( (db)=>{
         return new Promise( (resolve, reject)=>
         {
-            MongoClient.connect(dburl, (err,db)=>{
+            MongoClient.connect(config.dburl, (err,db)=>{
 			if (err) {
 				reject(err);
 			}
@@ -64,19 +64,49 @@ var createDB = new Promise( (resolve, reject)=>
     }
 /////////////////////////////////start to insert the User/Groups/gpchats/////////////////////
 ).then( (db)=>{
-        db.collection(config.c1).insertMany(config.c1_input, (err, res)=>{
-            console.log(res);
-        });
-        db.collection(config.c2).insertMany(config.c2_input, (err, res)=>{
-            console.log(res);
-        });
-        db.collection(config.c3).insertMany(config.c3_input, (err, res)=>{
-            console.log(res);
-        });
+        return new Promise( (resolve,reject)=>{
+            db.collection(config.c1).insertMany(config.c1_input, (err, res)=>{
+                if (err) 
+                    reject (err);
+                else {
+                    console.log(res);  
+                    resolve (db);
+                }
+            });
+            });
+        
+        }
+).then((db)=>{
+        return new Promise( (resolve,reject)=>{
+            db.collection(config.c2).insertMany(config.c2_input, (err, res)=>{
+                if (err) 
+                    reject (err);
+                else {
+                    console.log(res);  
+                    resolve (db);
+                }
+            });
+            });
+        
+        }
+).then((db)=>{
+        return new Promise( (resolve,reject)=>{
+            db.collection(config.c3).insertMany(config.c3_input, (err, res)=>{
+                if (err) 
+                    reject (err);
+                else {
+                    console.log(res);  
+                    resolve (db);
+                }
+            });
+            });
+        
+        }
+).then( (db) => {
 
         db.close();
-
-    
+        console.log("!!!!!!==DB "+db.databaseName+" successfully inserted!!!!!!");
+        return process.exit();
 }
 ).catch( (err)=>{
 	console.log("!! DB NOT connected or DB NOT dropped or Collection/Docs NOT inserted !!\n"+ err);

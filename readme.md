@@ -27,7 +27,7 @@ gprecords(config file alias:c3)
 
 --------------------------------------
 How to Depoly?
-1 install MongoDB on localhost
+1 install MongoDB on localhost and start the MongoDB "mongod --dbpath xxxx"
 2 install Nodejs 
 3 depoly this application folder and run "npm install" to install the node_modules Lib
 4 Run the dbCreated.js, which add some data into the DB
