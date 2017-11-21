@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var config = require('../config');
 //var MongoClient = require('mongodb').MongoClient;
-var db = require('../myops/dbconn1');
+//var db = require('../myops/dbconn1');
 /* GET chatgroup lists. */
 router.get('/', function(req, res, next) {
 

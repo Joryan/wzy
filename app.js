@@ -4,9 +4,17 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var config = require('./config');
 
-//console.log("check points");
+console.log("check points");
 //DB connection
+var mongoose = require('mongoose');
+mongoose.connect(config.dburl);
+var db = mongoose.connection;
+
+console.log("check points 2")
+db.on('error', console.error.bind(console,'DB Connection Error!!'));
+db.once('open',()=>{ console.log("In app.js, the db got is "+ db)});
 //var db= require('./myops/dbconn');
 //var db=mydb();
 //console.log("In app.js, the db we got is ==> "+ db.databaseName);
