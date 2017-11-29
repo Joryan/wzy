@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var config = require('./config');
 
-console.log("check points");
+
 //DB connection
 var mongoose = require('mongoose');
 mongoose.connect(config.dburl);
@@ -40,9 +40,53 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
-app.use('/groups',groups);
-app.use('/gprecords',gprecords);
+//app.use('/groups',groups);
+//app.use('/gprecords',gprecords);
+//-----------------------------------------------------
 
+app.param('collectionName', function(req, res, next, collectionName){
+  req.collection = db.collection(collectionName)
+  return next()
+});
+
+app.get('/:collectionName', function(req, res, next) {
+  req.collection.find({} ,{limit: 10, sort: {'_id': -1}}).toArray(function(e, results){
+  if (e) return next(e)
+  res.send(results)
+  });
+});
+app.post('/:collectionName', function(req, res, next) {
+    req.collection.insert(req.body, {}, function(e, results){
+    if (e) return next(e)
+    res.send(results)
+  });
+});
+app.get('/:collectionName/:userId', function(req, res, next) {
+    req.collection.findById(req.params.userId, function(e, result){
+    if (e) return next(e)
+    res.send(result)
+    });
+});
+app.put('/:collectionName/:userId', function(req, res, next) {
+    req.collection.updateById(req.params.userId, {$set: req.body}, {safe: true, multi: false},
+    function(e, result){
+      if (e) return next(e)
+      res.send((result === 1) ? {msg:'success'} : {msg: 'error'})
+    });
+});
+app.delete(':collectionName/:userId', function(req, res, next) {
+    req.collection.removeById(req.params.userId, function(e, result){
+      if (e) return next(e)
+      res.send((result === 1)?{msg: 'success'} : {msg: 'error'})
+    });
+});
+
+
+
+
+
+
+//------------------------------------------------------
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
